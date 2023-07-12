@@ -1,0 +1,26 @@
+Resources:
+  MyInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-053b0d53c279acc90
+      Tags:
+        - Key: "Name"
+          Value: !Join ["-", [my, first, Instance, from, cloudformation]]
+      SecurityGroups:
+        - !Ref vprofileSG
+
+  vprofileSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: allow connections from http and ssh to client host
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 80
+        ToPort: 80
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: 22
+        ToPort: 22
+        CidrIp: 192.168.30.178/32
+
